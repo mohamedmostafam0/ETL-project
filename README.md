@@ -152,15 +152,4 @@ Open the Airflow UI and trigger the `kafka_spark_dag` DAG.
   docker logs <spark-container-id>
   ```
 
----
-
-## **License**
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
----
-
-## **Author**
-**Mohamed Mostafa**
-
-- **GitHub**: [mohamedmostafam0](https://github.com/mohamedmostafam0)
 
