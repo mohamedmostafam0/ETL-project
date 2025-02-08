@@ -1,0 +1,81 @@
+#ETL Project: Kafka, Airflow, and Spark Integration
+
+This project demonstrates an ETL (Extract, Transform, Load) pipeline using **Kafka**, **Airflow**, and **Spark**. It extracts data from a public API, processes it using Kafka and Spark, and loads it into a PostgreSQL database. The pipeline is orchestrated using Apache Airflow.
+
+---
+
+## **Directory Structure**
+
+├── LICENSE
+├── README.md
+├── airflow
+│   ├── Dockerfile
+│   ├── __init__.py
+│   └── dags
+│       ├── __init__.py
+│       └── dag_kafka_spark.py
+├── data
+│   └── last_processed.json
+├── docker-compose-airflow.yaml
+├── docker-compose.yml
+├── kafka
+├── requirements.txt
+├── Spark
+│   └── Dockerfile
+└── src
+    ├── __init__.py
+    ├── constants.py
+    ├── kafka_client
+    │   ├── __init__.py
+    │   └── kafka_stream_data.py
+    └── spark_pgsql
+        └── spark_streaming.py
+
+
+
+
+
+---
+
+## **Components**
+
+### **1. Kafka**
+- **Role**: Acts as a message broker for streaming data.
+- **Configuration**:
+  - Kafka is configured using `docker-compose.yml`.
+  - The `rappel_conso` topic is used to store processed data.
+- **Data Flow**:
+  - Data is produced by the `kafka_stream_data.py` script and consumed by the Spark streaming job.
+
+### **2. Airflow**
+- **Role**: Orchestrates the ETL pipeline.
+- **DAGs**:
+  - `dag_kafka_spark.py`: Defines the workflow for extracting data, streaming it to Kafka, and processing it with Spark.
+- **Configuration**:
+  - Airflow is configured using `docker-compose-airflow.yaml`.
+  - The `LocalExecutor` is used for task execution.
+
+### **3. Spark**
+- **Role**: Processes streaming data from Kafka and writes it to PostgreSQL.
+- **Configuration**:
+  - Spark is containerized using the `spark/Dockerfile`.
+  - The `spark_streaming.py` script reads data from Kafka, transforms it, and writes it to PostgreSQL.
+
+### **4. PostgreSQL**
+- **Role**: Stores the final processed data.
+- **Configuration**:
+  - PostgreSQL is configured using `docker-compose.yml`.
+  - The `rappel_conso_table` table is created using the `create_table.py` script.
+
+---
+
+## **Setup Instructions**
+
+### **1. Prerequisites**
+- Docker and Docker Compose installed.
+- Python 3.8+.
+
+### **2. Clone the Repository**
+```bash
+git clone https://github.com/mohamedmostafam0/etl-project.git
+cd etl-project
