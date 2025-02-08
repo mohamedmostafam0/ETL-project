@@ -1,10 +1,8 @@
-version: '3'
-
 services:
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: "bitnami/kafka:latest"
     ports:
-      - '9094:9094'
+      - "9094:9094"
     networks:
       - airflow-kafka
     environment:
@@ -28,12 +26,17 @@ services:
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: PLAINTEXT://kafka:9092
-      DYNAMIC_CONFIG_ENABLED: 'true'
+      DYNAMIC_CONFIG_ENABLED: "true"
     networks:
       - airflow-kafka
+    volumes:
+      - ./requirements.txt:/requirements.txt
+    # command: >
+    #   sh -c "java -jar /opt/kafka-ui.jar"
 
   docker-proxy:
-    image: bobrik/socat
+    image: alpine/socat:latest
+    container_name: docker-proxy
     command: "TCP4-LISTEN:2375,fork,reuseaddr UNIX-CONNECT:/var/run/docker.sock"
     ports:
       - "2376:2375"
@@ -42,7 +45,39 @@ services:
     networks:
       - airflow-kafka
 
+  postgres:
+    image: "postgres:15"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - airflow-kafka
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "5050:80" # Exposes pgAdmin on port 5050
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - airflow-kafka
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 networks:
   airflow-kafka:
     external: true
+
+volumes:
+  postgres_data:
+  pgadmin_data:

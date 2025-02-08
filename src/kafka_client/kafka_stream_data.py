@@ -1,4 +1,4 @@
-from src.constants import (
+from constants import (
     URL_API,
     PATH_LAST_PROCESSED,
     MAX_LIMIT,
@@ -7,6 +7,8 @@ from src.constants import (
 
 from .transformations import transform_row
 
+import os
+import sys
 import kafka.errors
 import json
 import datetime
@@ -14,6 +16,7 @@ import requests
 from kafka import KafkaProducer
 from typing import List
 import logging
+
 
 logging.basicConfig(format="%(asctime)s - %(message)s", level=logging.INFO, force=True)
 

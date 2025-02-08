@@ -13,13 +13,20 @@ URL_API = "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappe
 URL_API = URL_API.format(MAX_LIMIT, "{}", "{}")
 
 # POSTGRES PARAMS
-user_name = os.getenv("POSTGRES_DOCKER_USER", "localhost")
-POSTGRES_URL = f"jdbc:postgresql://{user_name}:5432/postgres"
-POSTGRES_PROPERTIES = {
-    "user": "postgres",
-    "password": os.getenv("POSTGRES_PASSWORD"),
-    "driver": "org.postgresql.Driver",
-}
+
+
+dbname = os.getenv("POSTGRES_DB")
+user = os.getenv("POSTGRES_USER")
+password = os.getenv("POSTGRES_PASSWORD")  
+host = os.getenv("POSTGRES_HOST")
+
+# user_name = os.getenv("POSTGRES_USER")
+POSTGRES_URL = f"jdbc:postgresql://{user}:5432/postgres"
+# POSTGRES_PROPERTIES = {
+#     "user": "postgres",
+#     "password": os.getenv("POSTGRES_PASSWORD"),
+#     "driver": "org.postgresql.Driver",
+# }
 
 NEW_COLUMNS = [
     "risques_pour_le_consommateur",

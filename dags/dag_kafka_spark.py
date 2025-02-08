@@ -1,13 +1,10 @@
-import sys
 from datetime import timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.docker.operators.docker import DockerOperator
 from datetime import datetime
 
-sys.path.insert(0, '/opt/airflow/src')
-
-from kafka_client.kafka_stream_data import stream
+from src.kafka_client.kafka_stream_data import stream
 
 
 # start_date = datetime.today() - timedelta(days=1)

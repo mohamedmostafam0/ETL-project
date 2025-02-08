@@ -1,6 +1,6 @@
 import re
 from unidecode import unidecode
-from src.constants import COLUMNS_TO_NORMALIZE, COLUMNS_TO_KEEP
+from constants import COLUMNS_TO_NORMALIZE, COLUMNS_TO_KEEP
 
 
 def merge_two_columns(

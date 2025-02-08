@@ -6,10 +6,10 @@ import psycopg2
 from src.constants import DB_FIELDS
 
 # Database connection parameters
-dbname = "postgres"
-user = "postgres"
-password = os.getenv("POSTGRES_PASSWORD")
-host = "localhost"
+dbname = os.getenv("POSTGRES_DB")
+user = os.getenv("POSTGRES_USER")
+password = os.getenv("POSTGRES_PASSWORD")  
+host = os.getenv("POSTGRES_HOST")
 
 # Connect to the database
 conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
